@@ -19,12 +19,18 @@ class Notification extends Model
         'sent_at',
         'status',
         'error',
+        'opened_at',
+        'clicked_at',
+        'opens_count',
+        'clicks_count',
     ];
 
     protected $casts = [
         'data' => 'array',
         'scheduled_at' => 'datetime',
         'sent_at' => 'datetime',
+        'opened_at' => 'datetime',
+        'clicked_at' => 'datetime',
     ];
 
     public function template(): BelongsTo
