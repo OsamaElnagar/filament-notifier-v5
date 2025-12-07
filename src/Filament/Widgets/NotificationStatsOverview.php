@@ -1,6 +1,7 @@
 <?php
 namespace Usamamuneerchaudhary\Notifier\Filament\Widgets;
 
+use Filament\Facades\Filament;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Usamamuneerchaudhary\Notifier\Models\Notification;
@@ -9,6 +10,11 @@ use Usamamuneerchaudhary\Notifier\Models\NotificationChannel;
 class NotificationStatsOverview extends BaseWidget
 {
     protected ?string $pollingInterval = '10s';
+
+    public static function canView(): bool
+    {
+        return false;
+    }
 
     protected function getStats(): array
     {

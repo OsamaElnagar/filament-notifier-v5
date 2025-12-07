@@ -4,11 +4,17 @@ namespace Usamamuneerchaudhary\Notifier;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Usamamuneerchaudhary\Notifier\Filament\Resources\NotificationChannelResource;
+use Usamamuneerchaudhary\Notifier\Filament\Pages\NotifierDashboard;
 use Usamamuneerchaudhary\Notifier\Filament\Pages\NotificationSettings;
 use Usamamuneerchaudhary\Notifier\Filament\Resources\NotificationEventResource;
 use Usamamuneerchaudhary\Notifier\Filament\Resources\NotificationTemplateResource;
 use Usamamuneerchaudhary\Notifier\Filament\Resources\NotificationResource;
+use Usamamuneerchaudhary\Notifier\Filament\Widgets\NotificationAnalyticsChart;
+use Usamamuneerchaudhary\Notifier\Filament\Widgets\NotificationChannelPerformance;
+use Usamamuneerchaudhary\Notifier\Filament\Widgets\NotificationEngagementStats;
 use Usamamuneerchaudhary\Notifier\Filament\Widgets\NotificationStatsOverview;
+use Usamamuneerchaudhary\Notifier\Filament\Widgets\NotificationTimeSeriesChart;
+use Usamamuneerchaudhary\Notifier\Filament\Widgets\RateLimitingStatusWidget;
 
 class FilamentNotifierPlugin implements Plugin
 {
@@ -22,6 +28,11 @@ class FilamentNotifierPlugin implements Plugin
         $panel
             ->widgets([
                 NotificationStatsOverview::class,
+                NotificationEngagementStats::class,
+                NotificationTimeSeriesChart::class,
+                NotificationAnalyticsChart::class,
+                NotificationChannelPerformance::class,
+                RateLimitingStatusWidget::class,
             ])
             ->resources([
                 NotificationChannelResource::class,
@@ -30,6 +41,7 @@ class FilamentNotifierPlugin implements Plugin
                 NotificationResource::class,
             ])
             ->pages([
+                NotifierDashboard::class,
                 NotificationSettings::class,
             ]);
     }

@@ -16,6 +16,7 @@ class NotificationTemplateResource extends Resource
     protected static ?string $model = NotificationTemplate::class;
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-document-text';
     protected static string|null|\UnitEnum $navigationGroup = 'Notifier';
+    protected static ?int $navigationSort = 4;
 
     public static function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
