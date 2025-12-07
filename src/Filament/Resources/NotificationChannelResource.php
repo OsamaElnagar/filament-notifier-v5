@@ -16,6 +16,7 @@ class NotificationChannelResource extends Resource
     protected static ?string $model = NotificationChannel::class;
     protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-envelope';
     protected static string|null|\UnitEnum $navigationGroup = 'Notifier';
+    protected static ?int $navigationSort = 3;
 
     public static function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
