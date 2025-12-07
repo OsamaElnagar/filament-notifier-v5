@@ -17,6 +17,7 @@ class NotificationResource extends Resource
     protected static string|null|\UnitEnum $navigationGroup = 'Notifier';
     protected static ?string $modelLabel = 'Notification';
     protected static ?string $pluralModelLabel = 'Notifications';
+    protected static ?int $navigationSort = 5;
 
     public static function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
