@@ -63,5 +63,5 @@ class NotificationStatsOverview extends BaseWidget
         }
         return $data;
     }
-    
+
 }
