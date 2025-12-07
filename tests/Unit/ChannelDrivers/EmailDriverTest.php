@@ -94,8 +94,7 @@ class EmailDriverTest extends TestCase
     public function test_it_validates_settings_correctly()
     {
         $validSettings = [
-            'smtp_host' => 'smtp.mailtrap.io',
-            'smtp_port' => 2525,
+            'from_address' => 'noreply@example.com',
         ];
 
         $invalidSettings = [

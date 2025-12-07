@@ -224,8 +224,8 @@ class NotifierManager
             $user = $data['user'];
             $allData['user_name'] = $user->name ?? '';
             $allData['user_email'] = $user->email ?? '';
-            $allData['name'] = $user->name ?? ($allData['name'] ?? '');
-            $allData['email'] = $user->email ?? ($allData['email'] ?? '');
+            $allData['name'] = $allData['name'] ?? ($user->name ?? '');
+            $allData['email'] = $allData['email'] ?? ($user->email ?? '');
         }
 
         // Replace variables using regex to handle occurrences and edge cases

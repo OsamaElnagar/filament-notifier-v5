@@ -24,6 +24,8 @@ class NotifierManagerTest extends TestCase
 
     public function test_it_can_send_notification_with_valid_event_and_template()
     {
+        Queue::fake();
+
         // Create test data
         $user = $this->createUser();
         $channel = $this->createChannel('email');
@@ -120,6 +122,8 @@ class NotifierManagerTest extends TestCase
 
     public function test_it_renders_template_with_variables()
     {
+        Queue::fake();
+
         $user = $this->createUser();
         $channel = $this->createChannel('email');
         $event = $this->createEvent('user.registered');

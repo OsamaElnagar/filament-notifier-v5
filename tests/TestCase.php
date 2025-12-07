@@ -27,9 +27,5 @@ abstract class TestCase extends Orchestra
             'prefix'   => '',
         ]);
 
-        // Setup notifier config
-        $app['config']->set('notifier.channels.email.enabled', true);
-        $app['config']->set('notifier.channels.slack.enabled', true);
-        $app['config']->set('notifier.channels.sms.enabled', true);
     }
-} 
+}
