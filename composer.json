@@ -45,7 +45,13 @@
         "laravel": {
             "providers": [
                 "Usamamuneerchaudhary\\Notifier\\NotifierServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Preference": "Usamamuneerchaudhary\\Notifier\\Facades\\Preference",
+                "Analytics": "Usamamuneerchaudhary\\Notifier\\Facades\\Analytics",
+                "UrlTracking": "Usamamuneerchaudhary\\Notifier\\Facades\\UrlTracking",
+                "NotificationRepo": "Usamamuneerchaudhary\\Notifier\\Facades\\NotificationRepo"
+            }
         }
     },
     "require-dev": {
