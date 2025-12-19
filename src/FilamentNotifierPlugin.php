@@ -4,6 +4,7 @@ namespace Usamamuneerchaudhary\Notifier;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Usamamuneerchaudhary\Notifier\Filament\Resources\NotificationChannelResource;
+use Usamamuneerchaudhary\Notifier\Filament\Pages\EventChannelConfiguration;
 use Usamamuneerchaudhary\Notifier\Filament\Pages\NotifierDashboard;
 use Usamamuneerchaudhary\Notifier\Filament\Pages\NotificationSettings;
 use Usamamuneerchaudhary\Notifier\Filament\Resources\NotificationEventResource;
@@ -43,6 +44,7 @@ class FilamentNotifierPlugin implements Plugin
             ->pages([
                 NotifierDashboard::class,
                 NotificationSettings::class,
+                EventChannelConfiguration::class,
             ]);
     }
 
