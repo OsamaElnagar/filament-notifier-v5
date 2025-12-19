@@ -133,10 +133,19 @@ class NotificationTrackingController extends Controller
     }
 
     /**
-     * redirect to URL
+     * Safely redirect to URL
      */
     protected function redirectToUrl(string $url)
     {
+        $dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:', 'about:'];
+        $urlLower = strtolower(trim($url));
+        foreach ($dangerousProtocols as $protocol) {
+            if (str_starts_with($urlLower, $protocol)) {
+                return redirect()->to('/');
+            }
+        }
+
+        // Validate URL to prevent open redirect vulnerabilities
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             if (!str_starts_with($url, '/')) {
                 $url = '/' . $url;
@@ -144,8 +153,9 @@ class NotificationTrackingController extends Controller
             return redirect()->to($url);
         }
 
+        // Only allow http/https protocols
         $parsedUrl = parse_url($url);
-        if (isset($parsedUrl['scheme']) && !in_array($parsedUrl['scheme'], ['http', 'https'])) {
+        if (isset($parsedUrl['scheme']) && !in_array(strtolower($parsedUrl['scheme']), ['http', 'https'])) {
             return redirect()->to('/');
         }
 
