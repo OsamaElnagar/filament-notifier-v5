@@ -16,7 +16,12 @@ use Usamamuneerchaudhary\Notifier\Models\NotificationChannel;
 use Usamamuneerchaudhary\Notifier\Models\NotificationEvent;
 use Usamamuneerchaudhary\Notifier\Models\NotificationPreference;
 use Usamamuneerchaudhary\Notifier\Models\NotificationTemplate;
+use Usamamuneerchaudhary\Notifier\Services\AnalyticsService;
+use Usamamuneerchaudhary\Notifier\Services\ChannelDriverFactory;
+use Usamamuneerchaudhary\Notifier\Services\NotificationRepository;
 use Usamamuneerchaudhary\Notifier\Services\NotifierManager;
+use Usamamuneerchaudhary\Notifier\Services\PreferenceService;
+use Usamamuneerchaudhary\Notifier\Services\UrlTrackingService;
 
 class NotifierServiceProvider extends PackageServiceProvider
 {
@@ -47,6 +52,11 @@ class NotifierServiceProvider extends PackageServiceProvider
         $this->app->bind('notifier.template', NotificationTemplate::class);
         $this->app->bind('notifier.preference', NotificationPreference::class);
         $this->app->bind('notifier.notification', Notification::class);
+
+        $this->app->singleton(PreferenceService::class);
+        $this->app->singleton(AnalyticsService::class);
+        $this->app->singleton(UrlTrackingService::class);
+        $this->app->singleton(NotificationRepository::class);
     }
 
     public function packageBooted(): void
@@ -65,7 +75,7 @@ class NotifierServiceProvider extends PackageServiceProvider
      */
     protected function registerApiRoutes(): void
     {
-        Route::middleware(['api', 'auth'])->prefix('api/notifier/preferences')->group(function () {
+        Route::prefix('api/notifier/preferences')->group(function () {
             Route::get('/', [NotificationPreferenceController::class, 'index']);
             Route::get('/available', [NotificationPreferenceController::class, 'available']);
             Route::get('/{eventKey}', [NotificationPreferenceController::class, 'show']);
@@ -94,27 +104,17 @@ class NotifierServiceProvider extends PackageServiceProvider
             $notifier = $this->app->make('notifier');
             $channels = \Usamamuneerchaudhary\Notifier\Models\NotificationChannel::where('is_active', true)->get();
 
+            $driverFactory = new ChannelDriverFactory();
             foreach ($channels as $channel) {
-                $driver = $this->getDriverForChannel($channel->type);
+                $driver = $driverFactory->create($channel->type);
                 if ($driver) {
                     $notifier->registerChannel($channel->type, $driver);
                 }
             }
         } catch (\Exception $e) {
             Log::info($e->getMessage());
-            // Silently fail here.
+            // Silently fail
         }
     }
 
-    protected function getDriverForChannel(string $channelType): Services\ChannelDrivers\EmailDriver|Services\ChannelDrivers\PushDriver|Services\ChannelDrivers\DiscordDriver|Services\ChannelDrivers\SlackDriver|Services\ChannelDrivers\SmsDriver|null
-    {
-        return match ($channelType) {
-            'email' => new \Usamamuneerchaudhary\Notifier\Services\ChannelDrivers\EmailDriver(),
-            'slack' => new \Usamamuneerchaudhary\Notifier\Services\ChannelDrivers\SlackDriver(),
-            'sms' => new \Usamamuneerchaudhary\Notifier\Services\ChannelDrivers\SmsDriver(),
-            'push' => new \Usamamuneerchaudhary\Notifier\Services\ChannelDrivers\PushDriver(),
-            'discord' => new \Usamamuneerchaudhary\Notifier\Services\ChannelDrivers\DiscordDriver(),
-            default => null,
-        };
-    }
 }
